@@ -37,14 +37,26 @@ sample_path <- function(a, b, t0, t1, Q, method = "mr", npaths = 1, eigen_vals =
                 stop("The endpoints must be given in as row numbers in the rate matrix.")
         }
 
+        # check that if one part of the eigen decomposition was provided, all were provided
+        if(!is.null(eigen_vals) || !is.null(eigen_vecs) || !is.null(inverse_vecs)) {
+                if(is.null(eigen_vals) || is.null(eigen_vecs) || is.null(inverse_vecs)) {
+                        stop("If one part of the eigen decomposition of Q was provided, all parts must be provided.")
+                }
+        }
+
+        # check that the process is not starting in an absorbing state while the endpoints are different
+        if(all(Q[a,] == 0) & a != b) {
+                stop("The process cannot start in an absorbing state if the endpoints are different.")
+        }
+
         if(npaths == 1) {
                 if(method == "mr") {
-                        path <- sample_path.mr(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
+                        path <- sample_path_mr(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
                 } else {
                         if(is.null(eigen_vals)) {
-                                path <- sample_path.unif(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
+                                path <- sample_path_unif(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
                         } else {
-                                path <- sample_path.unif2(a = a, b = b, t0 = t0, t1 = t1, Q = Q, eigen_vals = eigen_vals, eigen_vecs = eigen_vecs, inverse_vecs = inverse_vecs)
+                                path <- sample_path_unif2(a = a, b = b, t0 = t0, t1 = t1, Q = Q, eigen_vals = eigen_vals, eigen_vecs = eigen_vecs, inverse_vecs = inverse_vecs)
                         }
                 }
 
@@ -54,20 +66,22 @@ sample_path <- function(a, b, t0, t1, Q, method = "mr", npaths = 1, eigen_vals =
 
                 if(method == "mr") {
                         for(k in 1:npaths) {
-                                path[[k]] <- sample_path.mr(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
+                                path[[k]] <- sample_path_mr(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
                         }
                 } else {
                         if(is.null(eigen_vals)) {
                                 for(k in 1:npaths) {
-                                        path[[k]] <- sample_path.unif(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
+                                        path[[k]] <- sample_path_unif(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
                                 }
                         } else {
                                 for(k in 1:npaths) {
-                                        path[[k]] <- sample_path.unif2(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
+                                        path[[k]] <- sample_path_unif2(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
                                 }
                         }
                 }
         }
+
+        colnames(path) <- c("time", "state")
 
         return(path)
 

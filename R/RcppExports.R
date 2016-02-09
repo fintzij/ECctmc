@@ -5,3 +5,32 @@ rcpp_hello <- function() {
     .Call('ECctmc_rcpp_hello', PACKAGE = 'ECctmc')
 }
 
+#' Simulate a sample path from an endpoint conditioned CTMC by modified
+#' rejection sampling.
+#'
+#' @param a,b States at the interval endpoints, provided as integers
+#'    corresponding to rows of the CTMC rate matrix.
+#' @param t0,t1 times of the interval endpoints
+#' @param Q CTMC rate matrix
+#'
+#' @return matrix whose first column is the sequence of transition times
+#' bookended by interval endpoints, and whose second column is the sequence of
+#' states
+sample_path_mr <- function(a, b, t0, t1, Q) {
+    .Call('ECctmc_sample_path_mr', PACKAGE = 'ECctmc', a, b, t0, t1, Q)
+}
+
+#' Simulate a sample path from an endpoint conditioned CTMC by uniformization.
+#'
+#' @param a,b States at the interval endpoints, provided as integers
+#'    corresponding to rows of the CTMC rate matrix.
+#' @param t0,t1 times of the interval endpoints
+#' @param Q CTMC rate matrix
+#'
+#' @return matrix whose first column is the sequence of transition times
+#' bookended by interval endpoints, and whose second column is the sequence of
+#' states
+sample_path_unif <- function(a, b, t0, t1, Q) {
+    .Call('ECctmc_sample_path_unif', PACKAGE = 'ECctmc', a, b, t0, t1, Q)
+}
+
