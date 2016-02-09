@@ -15,6 +15,8 @@
 #'   matrices of sample paths.
 #' @export
 #'
+#' @examples sample_path(1, 2, 0, 5, matrix(c(-0.49, 0.49, 0.51, -0.51), nrow = 2))
+#'
 sample_path <- function(a, b, t0, t1, Q, method = "mr", npaths = 1, eigen_vals = NULL, eigen_vecs = NULL, inverse_vecs = NULL) {
 
         # check that the simulation method is correctly specified
@@ -60,6 +62,8 @@ sample_path <- function(a, b, t0, t1, Q, method = "mr", npaths = 1, eigen_vals =
                         }
                 }
 
+                colnames(path) <- c("time", "state")
+
         } else {
 
                 path <- vector(mode = "list", length = npaths)
@@ -70,18 +74,18 @@ sample_path <- function(a, b, t0, t1, Q, method = "mr", npaths = 1, eigen_vals =
                         }
                 } else {
                         if(is.null(eigen_vals)) {
+
+                                Q_eig <- eigen(Q)
+                                inv_vecs <- solve(Q_eig$vectors)
+
                                 for(k in 1:npaths) {
-                                        path[[k]] <- sample_path_unif(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
-                                }
-                        } else {
-                                for(k in 1:npaths) {
-                                        path[[k]] <- sample_path_unif2(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
+                                        path[[k]] <- sample_path_unif2(a = a, b = b, t0 = t0, t1 = t1, Q = Q, eigen_vals = Q_eig$values, eigen_vecs = Q_eig$vectors, inverse_vecs = inv_vecs)
                                 }
                         }
                 }
-        }
 
-        colnames(path) <- c("time", "state")
+                path <- lapply(path, function(x) colnames(x) = c("time", "state"))
+        }
 
         return(path)
 
