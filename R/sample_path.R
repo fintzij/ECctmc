@@ -71,6 +71,7 @@ sample_path <- function(a, b, t0, t1, Q, method = "mr", npaths = 1, eigen_vals =
                 if(method == "mr") {
                         for(k in 1:npaths) {
                                 path[[k]] <- sample_path_mr(a = a, b = b, t0 = t0, t1 = t1, Q = Q)
+                                colnames(path[[k]]) <- c("time", "state")
                         }
                 } else {
                         if(is.null(eigen_vals)) {
@@ -80,11 +81,11 @@ sample_path <- function(a, b, t0, t1, Q, method = "mr", npaths = 1, eigen_vals =
 
                                 for(k in 1:npaths) {
                                         path[[k]] <- sample_path_unif2(a = a, b = b, t0 = t0, t1 = t1, Q = Q, eigen_vals = Q_eig$values, eigen_vecs = Q_eig$vectors, inverse_vecs = inv_vecs)
+                                        colnames(path[[k]]) <- c("time", "state")
                                 }
                         }
                 }
 
-                path <- lapply(path, function(x) colnames(x) = c("time", "state"))
         }
 
         return(path)

@@ -273,7 +273,18 @@ arma::mat sample_path_unif(const int a, const int b, const double t0, const doub
                                 path(j, 1) = Rcpp::RcppArmadillo::sample(states, 1, false, state_probs)[0];
                         }
 
-                        return path;
+                        // Determine which transitions are virtual transitions
+                        arma::vec keep_inds(path_nrows, arma::fill::ones);
+                        for(int j = 1; j < n_jumps; ++j) {
+                                if(path(j, 1) == path(j-1, 1)) {
+                                        keep_inds[j] = 0;
+                                }
+                        }
+
+                        // create a matrix for the complete path without virtual jumps
+                        arma::mat path_comp = path.rows(arma::find(keep_inds == 1));
+
+                        return path_comp;
                 }
         }
 }
@@ -417,7 +428,18 @@ arma::mat sample_path_unif2(const int a, const int b, const double t0, const dou
                                 path(j, 1) = Rcpp::RcppArmadillo::sample(states, 1, false, state_probs)[0];
                         }
 
-                        return path;
+                        // Determine which transitions are virtual transitions
+                        arma::vec keep_inds(path_nrows, arma::fill::ones);
+                        for(int j = 1; j < n_jumps; ++j) {
+                                if(path(j, 1) == path(j-1, 1)) {
+                                        keep_inds[j] = 0;
+                                }
+                        }
+
+                        // create a matrix for the complete path without virtual jumps
+                        arma::mat path_comp = path.rows(arma::find(keep_inds == 1));
+
+                        return path_comp;
                 }
         }
 }
