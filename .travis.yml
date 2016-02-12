@@ -3,7 +3,6 @@
 language: r
 warnings_are_errors: true
 sudo: required
-<<<<<<< HEAD
 r_binary_packages:
   - Rcpp
   - RcppArmadillo
@@ -11,8 +10,3 @@ r_binary_packages:
 r_packages:
   - knitr
   - rmarkdown
-=======
-install:
-  - Rscript -e 'install.packages("devtools", repos = "http://cran.rstudio.com")'
-  - Rscript -e 'install.packages(c("Rcpp", "RcppArmadillo", "knitr", "testthat", "rmarkdown"), repos = "http://cran.rstudio.com")'
->>>>>>> origin/master
