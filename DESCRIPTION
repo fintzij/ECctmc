@@ -5,6 +5,8 @@ Version: 0.1
 Date: 2016-02-01
 Author: Jon Fintzi
 Maintainer: Jon Fintzi <fintzij@uw.edu>
+URL: https://github.com/fintzij/ECctmc
+BugReports: https://github.com/fintzij/ECctmc/issues
 Description: Draw sample paths for endpoint-conditioned CTMCs via modified
     rejection sampling or uniformization.
 License: GPL-3
