@@ -3,8 +3,6 @@
 language: r
 warnings_are_errors: true
 sudo: required
-r_binary_packages:
- - Rcpp
- - RcppArmadillo
- - testthat
- - devtools
+install:
+  - Rscript -e 'install.packages("devtools", repos = "http://cran.rstudio.com")'
+  - Rscript -e 'install.packages(c("Rcpp", "RcppArmadillo"), repos = "http://cran.rstudio.com")'
