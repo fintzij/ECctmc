@@ -1,7 +1,7 @@
 Package: ECctmc
 Type: Package
 Title: Simulation from endpoint-conditioned continuous time Markov chains
-Version: 0.1
+Version: 0.1.0
 Date: 2016-02-01
 Author: Jon Fintzi
 Maintainer: Jon Fintzi <fintzij@uw.edu>
