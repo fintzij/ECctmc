@@ -10,5 +10,6 @@ There was 1 NOTE:
 
 * Maintainer: 'Jon Fintzi <fintzij@uw.edu>'
 
+
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.

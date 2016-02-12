@@ -5,3 +5,5 @@
 ^\.Rhistory$
 ^\.Rdata$
 ^README-.*\.png$
+^README\.RMD$
+^README\.md$
