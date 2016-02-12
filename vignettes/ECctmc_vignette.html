@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Jonathan Fintzi" />
+
+<meta name="date" content="2016-02-11" />
+
+<title>Simulating sample paths for endpoint-conditioned continuous time Markov chains via the ECctmc package</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0A%7D%0Apre%20%7B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div id="header">
+<h1 class="title">Simulating sample paths for endpoint-conditioned continuous time Markov chains via the ECctmc package</h1>
+<h4 class="author"><em>Jonathan Fintzi</em></h4>
+<h4 class="date"><em>2016-02-11</em></h4>
+</div>
+
+
+<p>The <em>ECctmc</em> package is a lightweight C++ implementation of the modified rejection sampling and uniformization algorithms detailed in Hobolth and Stone (2009). These algorithms allow users to efficiently simulate sample paths for continuous time Markov chains (CTMC) with discrete state spaces conditional on the state of the chain at the endpoints of the sampling interval. This implementation assumes that state sojourn times are exponentially distributed, and that the process is time-homogeneous. In this vignette we will briefly outline the two algorithms and demonstrate how to call the sampling functions to obtain a collection of paths. This vignette is not intended to be a completely describe the mathematical details of the algorithms or their relative efficiency. For details on the modified rejection sampling and uniformization algorithms, we suggest the Hobolth and Stone (2009) paper, which is really quite excellent.</p>
+<div id="notation" class="section level2">
+<h2>Notation</h2>
+<p>We are interested in sample paths for a finite state CTMC, <span class="math inline">\(X(t)\)</span>, over the time interval [0, T], conditional on <span class="math inline">\(X(0) = a\)</span> and <span class="math inline">\(X(T) = b\)</span>. We suppose that the chain has rate matrix <span class="math inline">\(Q\)</span>, where <span class="math inline">\(Q_{i,j}\)</span> denotes the instantaneous rate of change from state <span class="math inline">\(i\)</span> to state <span class="math inline">\(j\)</span>, and <span class="math inline">\(Q_i = Q_{i,i} = -\sum_{j\neq i} Q_{i,j} &gt; 0\)</span> is the rate of exit out of state <span class="math inline">\(i\)</span>. We will use <span class="math inline">\(\tau\)</span> to denote waiting times.</p>
+</div>
+<div id="forward-sampling---gillespies-direct-algorithm" class="section level2">
+<h2>Forward sampling - Gillespie’s direct algorithm</h2>
+<ol style="list-style-type: decimal">
+<li>Sample <span class="math inline">\(\tau\sim exp(Q_a)\)</span>. If <span class="math inline">\(\tau&gt;T\)</span>, then <span class="math inline">\(X(t) = a \forall t\in[0, T]\)</span>.</li>
+<li>If <span class="math inline">\(\tau &lt; T\)</span>, sample the next state, <span class="math inline">\(j\)</span> from the discrete probability distribution with masses given by <span class="math inline">\(\frac{Q_{a,j}}{Q_a}\)</span>, for <span class="math inline">\(j\neq a\)</span>. Repeat step 1, starting in <span class="math inline">\(X(\tau)=j\)</span>.</li>
+</ol>
+<p>Simple rejection sampling retains only the paths where <span class="math inline">\(X(T)=b\)</span>.</p>
+</div>
+<div id="modified-rejection-sampling" class="section level2">
+<h2>Modified rejection sampling</h2>
+<p>If <span class="math inline">\(a=b\)</span>,</p>
+<ol style="list-style-type: decimal">
+<li>Draw a path using the forward sampling algorithm, outlined above.</li>
+<li>Accept the path if <span class="math inline">\(X(T)=a\)</span>. Otherwise, repeat step 1.</li>
+</ol>
+<p>If <span class="math inline">\(a\neq b\)</span>,</p>
+<ol style="list-style-type: decimal">
+<li>Sample the first time of state transition using the inverse-CDF method. i.e. For <span class="math inline">\(u\sim Unif(0,1)\)</span>, the distribution of <span class="math inline">\(\tau\)</span>, given that at least one state transition occurs, may be sampled from by transforming <span class="math inline">\(u\)</span> by <span class="math display">\[ F^{-1}(u) = -log(1 - u(1 - \exp(-Q_a T)))/Q_a \]</span></li>
+<li>Sample the next state, <span class="math inline">\(j\)</span> from the discrete probability distribution with masses given by <span class="math inline">\(\frac{Q_{a,j}}{Q_a}\)</span>, for <span class="math inline">\(j\neq a\)</span>.</li>
+<li>Simulate the rest of the path in the interval <span class="math inline">\([\tau, T]\)</span> using the forward sampling algorithm, starting at <span class="math inline">\(X(\tau) = j\)</span>.</li>
+<li>Accept the path if <span class="math inline">\(X(T)=b\)</span>. Otherwise, return to step 1.</li>
+</ol>
+<p>Modified rejection sampling improves upon simple rejection sampling by avoiding sampling constant paths. It will be efficient when the time interval is small and the path is non-constant. However, when transitions into the final state are unlikely, many paths will be rejected.</p>
+</div>
+<div id="uniformization" class="section level2">
+<h2>Uniformization</h2>
+<p>We begin by defining an auxilliary stochastic process, <span class="math inline">\(Y(t)\)</span>, for which we construct a transition matrix <span class="math display">\[ R = I + Q/\mu \]</span> where <span class="math inline">\(\mu = \max_i Q_i\)</span>. Let <span class="math inline">\(R^n_{i,j}\)</span> denote the <span class="math inline">\(i,j\)</span> element of the <span class="math inline">\(n^{th}\)</span> power of <span class="math inline">\(R\)</span>. Let <span class="math inline">\(P_(T)=e^{QT}\)</span> be the discrete transition probability matrix of <span class="math inline">\(X(t)\)</span> over the interval, and <span class="math inline">\(P_{a,b}(T)\)</span> be it’s <span class="math inline">\(a,b\)</span> element. We proceed as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Let <span class="math inline">\(u\sim Unif(0,1)\)</span>. Sample the number of jumps in <span class="math inline">\([0,T]\)</span> conditional on <span class="math inline">\(X(0)=a\)</span> and <span class="math inline">\(X(T)=b\)</span> according to the discrete distribution with masses given by <span class="math display">\[ \Pr(N=n | X(0)=a, X(T)=b) = e^{\mu T} \frac{(\mu T)^n}{n!}R^n_{a,b}/P_{a,b}(T)\]</span> by taking <span class="math inline">\(n\)</span> to be the first time that the cumulative sum of the probability masses above exceeds <span class="math inline">\(u\)</span>. Save the matrices <span class="math inline">\(R^n\)</span> in these cumulative sums.</li>
+<li>If <span class="math inline">\(n=0,\ X(t)=a\ \forall t\in [0,T]\)</span>.</li>
+<li>If <span class="math inline">\(n=1\)</span> and <span class="math inline">\(a=b,\ X(t)=a\ \forall t\in [0,T]\)</span>.</li>
+<li>If <span class="math inline">\(n=1\)</span> and <span class="math inline">\(a\neq b\)</span>, draw <span class="math inline">\(\tau\sim Unif(0,T)\)</span>. Then <span class="math inline">\(X(t)=a,\ 0\leq t &lt; \tau\)</span>, and <span class="math inline">\(X(t)=b,\ \tau \leq t \leq T\)</span>.</li>
+<li>If <span class="math inline">\(n\geq 2\)</span>, sample the times of state transition, <span class="math inline">\(\tau_1,\dots,\tau_n\)</span>, uniformly and independently within the interval <span class="math inline">\([0,T]\)</span> and order. Then, sample the sequence of states <span class="math inline">\(X(\tau_i),\ i=1,\dots,n-1,\)</span> from the discrete distribution with masses given by <span class="math display">\[ \Pr(X(\tau_i) =x_i | X(\tau_{i-1}) = x_{i-1}, X(T)=b)) = \frac{R_{x_{i-1},x_i} (R^{n-i})_{x_i,b}}{(R^{n-i+1})_{x_{i-1},b}} \]</span></li>
+</ol>
+</div>
+<div id="simulating-sample-paths" class="section level2">
+<h2>Simulating sample paths</h2>
+<p>We may simulate sample paths by calling the <code>sample_path()</code> function, which returns either a matrix containing the CTMC path, or a list of matrices each containing a path. This function has only a few argments that must be specified. There are:</p>
+<ul>
+<li><em>a,b</em>: states at the interval endpoints, each of which is in 1,…,# states.</li>
+<li><em>t0,t1</em>: times of the interval endpoints.</li>
+<li><em>Q</em>: CTMC rate matrix.</li>
+</ul>
+<p>The default number of paths is 1, although the user can request any number of paths to be returned in a list. We can optionally specify a method, either “mr”, or “unif”, though the default is modified rejection sampling. If uniformization is specified, the user can optionally provide a vector of eigen values, the matrix of corresponding eigen vectors, and the inverse eigen vector matrix. This may help speed up computations if the eigen decomposition has been computed beforehand. When multiple paths are requested, the eigen decomposition is computed once and cached for re-use, so there is no need to supply a pre-computed eigen decomposition.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">183427</span>)
+<span class="kw">require</span>(ECctmc)
+<span class="co"># rates</span>
+r1 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># 1-&gt;2</span>
+r2 &lt;-<span class="st"> </span><span class="fl">0.75</span> <span class="co"># 2-&gt;3</span>
+r3 &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="co"># 3-&gt;1</span>
+r4 &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="co"># 3-&gt; 2</span>
+Q &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(-r1, r1, <span class="dv">0</span>, <span class="dv">0</span>, -r2, r2, r3, r4, -(r3+r4)), <span class="dt">nrow =</span> <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># sample path</span>
+path &lt;-<span class="st"> </span><span class="kw">sample_path</span>(<span class="dt">a=</span><span class="dv">1</span>, <span class="dt">b=</span><span class="dv">3</span>, <span class="dt">t0=</span><span class="dv">0</span>, <span class="dt">t1=</span><span class="dv">5</span>, <span class="dt">Q=</span>Q)
+path</code></pre></div>
+<pre><code>##          time state
+## [1,] 0.000000     1
+## [2,] 1.851501     2
+## [3,] 2.680046     3
+## [4,] 2.890389     2
+## [5,] 3.961490     3
+## [6,] 5.000000     3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">stepfun</span>(<span class="dt">x=</span>path[<span class="dv">1</span>:(<span class="kw">nrow</span>(path)-<span class="dv">1</span>),<span class="st">&quot;time&quot;</span>], <span class="dt">y =</span> path[,<span class="st">&quot;state&quot;</span>]), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>), <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;State&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Sample path&quot;</span>)</code></pre></div>
+<p><img src="data:image/png;base64,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" alt /></p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Asger Hobolth and Eric A Stone. <em>Simulation from endpoint-conditioned, continuous-time Markov chains on a finite state space, with applications to molecular evolution.</em> The Annals of Applied Statistics, 3(3):1204, 2009.</p>
+<p>Daniel T Gillespie. <em>A general method for numerically simulating the stochastic time evolution of coupled chemical reactions.</em> Journal of computational physics, 22(4):403–434, 1976</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

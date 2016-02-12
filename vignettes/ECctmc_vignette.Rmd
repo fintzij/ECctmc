@@ -55,6 +55,23 @@ We may simulate sample paths by calling the `sample_path()` function, which retu
 
 The default number of paths is 1, although the user can request any number of paths to be returned in a list. We can optionally specify a method, either "mr", or "unif", though the default is modified rejection sampling. If uniformization is specified, the user can optionally provide a vector of eigen values, the matrix of corresponding eigen vectors, and the inverse eigen vector matrix. This may help speed up computations if the eigen decomposition has been computed beforehand. When multiple paths are requested, the eigen decomposition is computed once and cached for re-use, so there is no need to supply a pre-computed eigen decomposition. 
 
+```{r example1}
+set.seed(183427)
+require(ECctmc)
+# rates
+r1 <- 1 # 1->2
+r2 <- 0.75 # 2->3
+r3 <- 0.5 # 3->1
+r4 <- 0.5 # 3-> 2
+Q <- matrix(c(-r1, r1, 0, 0, -r2, r2, r3, r4, -(r3+r4)), nrow = 3, byrow = TRUE)
+
+# sample path
+path <- sample_path(a=1, b=3, t0=0, t1=5, Q=Q)
+path
+plot(stepfun(x=path[1:(nrow(path)-1),"time"], y = path[,"state"]), xlim = c(0,5), xlab = "Time", ylab = "State", main = "Sample path")
+```
+
+
 ## References
 
 Asger Hobolth and Eric A Stone. *Simulation from endpoint-conditioned, continuous-time Markov chains on a finite state space, with applications to molecular evolution.* The Annals of Applied Statistics, 3(3):1204, 2009.

@@ -33,4 +33,8 @@ sample_path returns either a matrix with a sample path or a list of
 \description{
 Sample path from the distribution of an endpoint-conditioned CTMC.
 }
+\examples{
+sample_path(1, 2, 0, 5, matrix(c(-0.49, 0.49, 0.51, -0.51), nrow = 2, byrow = TRUE))
+
+}
 

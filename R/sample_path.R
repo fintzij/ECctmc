@@ -15,7 +15,7 @@
 #'   matrices of sample paths.
 #' @export
 #'
-#' @examples sample_path(1, 2, 0, 5, matrix(c(-0.49, 0.49, 0.51, -0.51), nrow = 2))
+#' @examples sample_path(1, 2, 0, 5, matrix(c(-0.49, 0.49, 0.51, -0.51), nrow = 2, byrow = TRUE))
 #'
 sample_path <- function(a, b, t0, t1, Q, method = "mr", npaths = 1, eigen_vals = NULL, eigen_vecs = NULL, inverse_vecs = NULL) {
 
@@ -27,6 +27,10 @@ sample_path <- function(a, b, t0, t1, Q, method = "mr", npaths = 1, eigen_vals =
         # check that the rate matrix is a valid rate matrix
         if(!all(rowSums(Q) == 0)) {
                 stop("The rate matrix is not valid. The rates must sum to 0 zero within each row.")
+        }
+
+        if(!all(diag(Q) <= 0)) {
+                stop("The rate matrix is not valid. The diagonal entries must all be non-positive.")
         }
 
         # check that the times are properly ordered
