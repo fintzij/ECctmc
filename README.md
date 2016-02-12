@@ -1,4 +1,5 @@
 # ECctmc
+[![Travis-CI Build Status](https://travis-ci.org/fintzij/ECctmc.svg?branch=master)](https://travis-ci.org/fintzij/ECctmc)
 ## Simulating sample paths for endpoint-conditioned continuous time Markov chains.
 The __ECctmc__ R package is a lightweight C++ implementation of the modified rejection sampling and uniformization algorithms detailed in Hobolth and Stone (2009). 
 These algorithms allow users to efficiently simulate sample paths for continuous time Markov chains (CTMC) with discrete state spaces conditional on the state of the chain at the endpoints of the sampling interval. 
