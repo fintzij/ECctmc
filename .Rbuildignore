@@ -2,6 +2,6 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^cran-comments\.md$
-^README\.Rmd$
 ^\.Rhistory$
 ^\.Rdata$
+^README-.*\.png$
