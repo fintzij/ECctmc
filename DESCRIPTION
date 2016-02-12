@@ -3,17 +3,15 @@ Type: Package
 Title: Simulation from endpoint-conditioned continuous time Markov chains
 Version: 0.1.0
 Date: 2016-02-01
-Author: Jon Fintzi
-Maintainer: Jon Fintzi <fintzij@uw.edu>
+Authors@R: person("Jon", "Fintzi", email = "fintzij@uw.edu",
+                  role = c("aut", "cre"))
 URL: https://github.com/fintzij/ECctmc
 BugReports: https://github.com/fintzij/ECctmc/issues
-Description: Draw sample paths for endpoint-conditioned CTMCs via modified
-    rejection sampling or uniformization.
+Description: Draw sample paths for endpoint-conditioned continuous time Markov chains via modified rejection sampling or uniformization.
 License: GPL-3
 LazyData: TRUE
 Imports:
-    Rcpp (>= 0.12.3),
-    RcppArmadillo
+    Rcpp (>= 0.12.3)
 LinkingTo: Rcpp,
     RcppArmadillo
 RoxygenNote: 5.0.1
