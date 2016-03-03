@@ -1,0 +1,11 @@
+citEntry(entry = "Article",
+  header=paste("To cite the",sQuote("ECctmc"),
+         "package in publications, please use:"),
+  title        = "Simulating sample paths for endpoint-conditioned continuous time Markov chains with {ECctmc}",
+  author       = personList(as.person("Jon Fintzi")),
+  url          = "https://github.com/fintzij/ECctmc",
+  textVersion  =
+  paste("Jon Fintzi (2016).",
+        "Simulating sample paths for endpoint-conditioned continuous time Markov chains with ECctmc",
+        "URL https://github.com/fintzij/ECctmc.")
+)
