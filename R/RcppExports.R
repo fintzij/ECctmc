@@ -48,3 +48,7 @@ sample_path_unif2 <- function(a, b, t0, t1, Q, eigen_vals, eigen_vecs, inverse_v
     .Call('ECctmc_sample_path_unif2', PACKAGE = 'ECctmc', a, b, t0, t1, Q, eigen_vals, eigen_vecs, inverse_vecs)
 }
 
+# Register entry points for exported C++ functions
+methods::setLoadAction(function(ns) {
+    .Call('ECctmc_RcppExport_registerCCallable', PACKAGE = 'ECctmc')
+})
