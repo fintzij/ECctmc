@@ -276,7 +276,7 @@ arma::mat sample_path_unif(const int a, const int b, const double t0, const doub
 
                         // Determine which transitions are virtual transitions
                         arma::vec keep_inds(path_nrows, arma::fill::ones);
-                        for(int j = 1; j < n_jumps; ++j) {
+                        for(int j = 1; j < n_jumps + 1; ++j) {
                                 if(path(j, 1) == path(j-1, 1)) {
                                         keep_inds[j] = 0;
                                 }
@@ -331,7 +331,7 @@ arma::mat sample_path_unif2(const int a, const int b, const double t0, const dou
         double c_prob = exp(-m*T) * (a == b) / p_ab;
 
         // proceed with sampling by uniformization
-        // first the cast when there are no jumps
+        // first the case when there are no jumps
         if(c_prob > n_thresh[0]) {
 
                 // initialize matrix
@@ -431,7 +431,7 @@ arma::mat sample_path_unif2(const int a, const int b, const double t0, const dou
 
                         // Determine which transitions are virtual transitions
                         arma::vec keep_inds(path_nrows, arma::fill::ones);
-                        for(int j = 1; j < n_jumps; ++j) {
+                        for(int j = 1; j < n_jumps + 1; ++j) {
                                 if(path(j, 1) == path(j-1, 1)) {
                                         keep_inds[j] = 0;
                                 }
