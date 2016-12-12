@@ -5,7 +5,7 @@
 \title{Sample path from the distribution of an endpoint-conditioned CTMC.}
 \usage{
 sample_path(a, b, t0, t1, Q, method = "mr", npaths = 1, eigen_vals = NULL,
-  eigen_vecs = NULL, inverse_vecs = NULL)
+  eigen_vecs = NULL, inverse_vecs = NULL, P = NULL)
 }
 \arguments{
 \item{a, b}{States at the left and right endpoints of the interval, given as
@@ -20,11 +20,14 @@ row numbers of the CTMC rate matrix}
 
 \item{npaths}{optional argument for the number of sample paths to simulate.}
 
-\item{eigen_vals}{optional vector of eigen values of Q.}
+\item{eigen_vals}{optional vector of eigen values of Q (assumes all eigen
+values are real).}
 
 \item{eigen_vecs}{optional matrix of eigen vectors of Q.}
 
 \item{inverse_vecs}{optional inverse of the eigen vector matrix.}
+
+\item{P}{optional transition probability matrix over the interval}
 }
 \value{
 sample_path returns either a matrix with a sample path or a list of
