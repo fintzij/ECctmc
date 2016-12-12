@@ -52,8 +52,9 @@ arma::mat sample_path_mr(const int a, const int b, const double t0, const double
 
                 // If the beginning and end states don't match, sample first transition
                 if(a != b) {
+
                         // sample the first transition time
-                        cur_time = -log(1 - Rcpp::runif(1, 0, 1) * (1 - exp(-(t1-t0) * cur_rate))) / cur_rate;
+                        cur_time += -log(1 - Rcpp::runif(1, 0, 1) * (1 - exp(-(t1-t0) * cur_rate))) / cur_rate;
 
                         // sample the next state
                         cur_state = Rcpp::RcppArmadillo::sample(states, 1, false, state_probs);
@@ -90,7 +91,7 @@ arma::mat sample_path_mr(const int a, const int b, const double t0, const double
                         }
 
                         // Sample the next transition time
-                        cur_time = cur_time + Rcpp::rexp(1, cur_rate);
+                        cur_time += Rcpp::rexp(1, cur_rate);
 
                         // If the next time is after the right endpoint, stop
                         // sampling and determine if the path is valid
