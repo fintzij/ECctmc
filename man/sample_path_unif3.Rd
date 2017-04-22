@@ -26,4 +26,3 @@ states
 Simulate a sample path from an endpoint conditioned CTMC by uniformization
 using a pre-computed transition probability matrix.
 }
-

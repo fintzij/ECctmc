@@ -30,4 +30,3 @@ states
 Simulate a sample path from an endpoint conditioned CTMC by uniformization
 using pre-computed eigen-values (assumes that all eigenvalues are real).
 }
-

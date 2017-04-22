@@ -24,4 +24,3 @@ states
 Simulate a sample path from an endpoint conditioned CTMC by modified
 rejection sampling.
 }
-

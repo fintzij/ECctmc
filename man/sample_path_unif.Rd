@@ -22,4 +22,3 @@ states
 \description{
 Simulate a sample path from an endpoint conditioned CTMC by uniformization.
 }
-

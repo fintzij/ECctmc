@@ -15,4 +15,3 @@ Matrix exponential of Q
 \description{
 Compute the matrix exponential.
 }
-
