@@ -1,5 +1,3 @@
-library(ECctmc)
-
 context("Simulating endpoint conditioned CTMC paths")
 
 # This function merely executes a basic t test at a set of discrete times to
@@ -37,4 +35,22 @@ test_that("Modified rejection sampling and uniformization target the same distri
         for(k in 2:5) {
                 expect_false(t.test(MR_res[k,], Unif_res[k,])$p.value < 0.1)
         }
+})
+
+test_that("sampling does not fail if rowSums is within the rounding point error of zero, but not exactly zero", {
+        set.seed(1)
+        Q <- matrix(abs(rnorm(9)),3,3)
+        diag(Q) <- 0
+        diag(Q) <- -rowSums(Q)
+        expect_silent(sample_path(1, 1, 1, 2, Q))
+})
+
+test_that("sampling does fail if rowSums is not within the rounding point error of zero", {
+        set.seed(1)
+        Q <- matrix(abs(rnorm(9)),3,3)
+        diag(Q) <- 0
+        diag(Q) <- -rowSums(Q)
+        Q[1,1] <- Q[1,1] + sqrt(.Machine$double.eps)*10
+        all.equal(rowSums(Q), rep(0, nrow(Q)))
+        expect_error(sample_path(1, 1, 1, 2, Q))
 })
