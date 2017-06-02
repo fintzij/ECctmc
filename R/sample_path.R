@@ -27,7 +27,7 @@ sample_path <- function(a, b, t0, t1, Q, method = "mr", npaths = 1, eigen_vals =
           }
 
           # check that the rate matrix is a valid rate matrix
-          if(!all(rowSums(Q) == 0)) {
+          if(!all.equal(rowSums(Q), rep(0, nrow(Q)))) {
                 stop("The rate matrix is not valid. The rates must sum to 0 zero within each row.")
           }
 
