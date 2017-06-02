@@ -203,3 +203,18 @@ RcppExport SEXP ECctmc_RcppExport_registerCCallable() {
     R_RegisterCCallable("ECctmc", "ECctmc_RcppExport_validate", (DL_FUNC)ECctmc_RcppExport_validate);
     return R_NilValue;
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"ECctmc_sample_path_mr", (DL_FUNC) &ECctmc_sample_path_mr, 5},
+    {"ECctmc_sample_path_unif", (DL_FUNC) &ECctmc_sample_path_unif, 5},
+    {"ECctmc_sample_path_unif2", (DL_FUNC) &ECctmc_sample_path_unif2, 8},
+    {"ECctmc_sample_path_unif3", (DL_FUNC) &ECctmc_sample_path_unif3, 6},
+    {"ECctmc_comp_expmat", (DL_FUNC) &ECctmc_comp_expmat, 1},
+    {"ECctmc_RcppExport_registerCCallable", (DL_FUNC) &ECctmc_RcppExport_registerCCallable, 0},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_ECctmc(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
