@@ -13,7 +13,7 @@
 #' bookended by interval endpoints, and whose second column is the sequence of
 #' states
 sample_path_mr <- function(a, b, t0, t1, Q) {
-    .Call('ECctmc_sample_path_mr', PACKAGE = 'ECctmc', a, b, t0, t1, Q)
+    .Call('_ECctmc_sample_path_mr', PACKAGE = 'ECctmc', a, b, t0, t1, Q)
 }
 
 #' Simulate a sample path from an endpoint conditioned CTMC by uniformization.
@@ -27,7 +27,7 @@ sample_path_mr <- function(a, b, t0, t1, Q) {
 #' bookended by interval endpoints, and whose second column is the sequence of
 #' states
 sample_path_unif <- function(a, b, t0, t1, Q) {
-    .Call('ECctmc_sample_path_unif', PACKAGE = 'ECctmc', a, b, t0, t1, Q)
+    .Call('_ECctmc_sample_path_unif', PACKAGE = 'ECctmc', a, b, t0, t1, Q)
 }
 
 #' Simulate a sample path from an endpoint conditioned CTMC by uniformization
@@ -45,7 +45,7 @@ sample_path_unif <- function(a, b, t0, t1, Q) {
 #' bookended by interval endpoints, and whose second column is the sequence of
 #' states
 sample_path_unif2 <- function(a, b, t0, t1, Q, eigen_vals, eigen_vecs, inverse_vecs) {
-    .Call('ECctmc_sample_path_unif2', PACKAGE = 'ECctmc', a, b, t0, t1, Q, eigen_vals, eigen_vecs, inverse_vecs)
+    .Call('_ECctmc_sample_path_unif2', PACKAGE = 'ECctmc', a, b, t0, t1, Q, eigen_vals, eigen_vecs, inverse_vecs)
 }
 
 #' Simulate a sample path from an endpoint conditioned CTMC by uniformization
@@ -61,7 +61,7 @@ sample_path_unif2 <- function(a, b, t0, t1, Q, eigen_vals, eigen_vecs, inverse_v
 #' bookended by interval endpoints, and whose second column is the sequence of
 #' states
 sample_path_unif3 <- function(a, b, t0, t1, Q, P) {
-    .Call('ECctmc_sample_path_unif3', PACKAGE = 'ECctmc', a, b, t0, t1, Q, P)
+    .Call('_ECctmc_sample_path_unif3', PACKAGE = 'ECctmc', a, b, t0, t1, Q, P)
 }
 
 #' Compute the matrix exponential.
@@ -70,10 +70,10 @@ sample_path_unif3 <- function(a, b, t0, t1, Q, P) {
 #'
 #' @return Matrix exponential of Q
 comp_expmat <- function(Q) {
-    .Call('ECctmc_comp_expmat', PACKAGE = 'ECctmc', Q)
+    .Call('_ECctmc_comp_expmat', PACKAGE = 'ECctmc', Q)
 }
 
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
-    .Call('ECctmc_RcppExport_registerCCallable', PACKAGE = 'ECctmc')
+    .Call('_ECctmc_RcppExport_registerCCallable', PACKAGE = 'ECctmc')
 })
