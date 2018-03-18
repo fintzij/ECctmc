@@ -1,6 +1,6 @@
 ## Test environments
-* local Ubuntu 16.04lts install, R 3.4.3
-* ubuntu 12.04.5 (on travis-ci), R 3.3.1
+* local Ubuntu 16.04lts install, R 3.4.4
+* ubuntu 14.04.5 (on travis-ci), R 3.4.4
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -11,4 +11,4 @@ There was 1 NOTE:
 * Maintainer: 'Jon Fintzi <fintzij@uw.edu>'
 
 ## Downstream dependencies
-There are currently no downstream dependencies for this package.
+There are currently no downstream dependencies for this package. 
