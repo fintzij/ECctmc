@@ -9,7 +9,7 @@ context("Simulating endpoint conditioned CTMC paths")
 test_that("Modified rejection sampling and uniformization target the same distribution", {
 
         # set the seed, observation times, and parameters
-        set.seed(52787)
+        set.seed(12511)
         obstimes <- 0:5
         niter <- 500
         params <- c(mu = rnorm(1, 0.5, 1e-3), beta = rnorm(1, 0.5, 1e-3))
@@ -33,7 +33,7 @@ test_that("Modified rejection sampling and uniformization target the same distri
         expect_true(all(MR_res[1,] == 1) & all(Unif_res[1,] == 1) & all(MR_res[6,]==2 & all(Unif_res[6,]==2)))
 
         for(k in 2:5) {
-                expect_false(t.test(MR_res[k,], Unif_res[k,])$p.value < 0.05)
+                expect_false(t.test(MR_res[k,], Unif_res[k,])$p.value < 0.01)
         }
 })
 
