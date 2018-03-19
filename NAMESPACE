@@ -1,5 +1,5 @@
 exportPattern("^[[:alpha:]]+")
 importFrom(Rcpp, evalCpp)
-useDynLib(ECctmc)
+useDynLib(ECctmc, .registration=TRUE)
 
 export(sample_path)

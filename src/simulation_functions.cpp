@@ -17,7 +17,6 @@ using namespace Rcpp;
 //' bookended by interval endpoints, and whose second column is the sequence of
 //' states
 // [[Rcpp::export]]
-
 arma::mat sample_path_mr(const int a, const int b, const double t0, const double t1, const Rcpp::NumericMatrix& Q) {
 
         // Get the number of states and initialize vector of states
@@ -151,7 +150,6 @@ arma::mat sample_path_mr(const int a, const int b, const double t0, const double
 //' bookended by interval endpoints, and whose second column is the sequence of
 //' states
 // [[Rcpp::export]]
-
 arma::mat sample_path_unif(const int a, const int b, const double t0, const double t1, const arma::mat& Q) {
 
         // Get the number of states and initialize vector of states

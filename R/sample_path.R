@@ -15,7 +15,6 @@
 #'
 #' @return sample_path returns either a matrix with a sample path or a list of
 #'   matrices of sample paths.
-#' @export
 #'
 #' @examples sample_path(1, 2, 0, 5, matrix(c(-0.49, 0.49, 0.51, -0.51), nrow = 2, byrow = TRUE))
 #'
