@@ -5,11 +5,7 @@
 * win-builder (devel and release)
 
 ## R CMD check results
-There were no ERRORs or WARNINGs. 
-
-There was 1 NOTE:
-
-* Maintainer: 'Jon Fintzi <fintzij@uw.edu>'
+There were no ERRORs, WARNINGs, or NOTES. 
 
 ## Downstream dependencies
 There are currently no downstream dependencies for this package. 
