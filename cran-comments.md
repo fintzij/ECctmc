@@ -7,5 +7,9 @@
 ## R CMD check results
 There were no ERRORs, WARNINGs, or NOTES. 
 
+There was 1 NOTE:
+
+* Maintainer: 'Jon Fintzi <fintzij@uw.edu>'
+
 ## Downstream dependencies
 There are currently no downstream dependencies for this package. 
