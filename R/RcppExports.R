@@ -75,5 +75,5 @@ comp_expmat <- function(Q) {
 
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
-    .Call('_ECctmc_RcppExport_registerCCallable', PACKAGE = 'ECctmc')
+    .Call(`_ECctmc_RcppExport_registerCCallable`)
 })
